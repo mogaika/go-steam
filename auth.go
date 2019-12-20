@@ -108,8 +108,11 @@ func (a *Auth) handleLogOnResponse(packet *Packet) {
 
 	result := EResult(body.GetEresult())
 	if result == EResult_OK {
+		//a.client.connectTime = time.Now()
+		a.client.connectTime = time.Unix(int64(body.GetRtime32ServerTime()), 0)
 		atomic.StoreInt32(&a.client.sessionId, msg.Header.Proto.GetClientSessionid())
 		atomic.StoreUint64(&a.client.steamId, msg.Header.Proto.GetSteamid())
+		atomic.StoreUint32(&a.client.publicIp, body.GetPublicIp())
 		a.client.Web.webLoginKey = *body.WebapiAuthenticateUserNonce
 
 		go a.client.heartbeatLoop(time.Duration(body.GetOutOfGameHeartbeatSeconds()))

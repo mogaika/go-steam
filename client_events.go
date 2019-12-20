@@ -2,6 +2,8 @@ package steam
 
 import (
 	"github.com/Philipp15b/go-steam/netutil"
+
+	"github.com/Philipp15b/go-steam/appticket"
 )
 
 // When this event is emitted by the Client, the connection is automatically closed.
@@ -17,4 +19,12 @@ type DisconnectedEvent struct{}
 // instead of the builtin ones for the next connection.
 type ClientCMListEvent struct {
 	Addresses []*netutil.PortAddr
+}
+
+type TicketAuthAck struct{}
+
+type TicketAuthComplete struct{}
+
+type AppOwnershipTicket struct {
+	AppOwnershipTicket *appticket.AppTicket
 }
